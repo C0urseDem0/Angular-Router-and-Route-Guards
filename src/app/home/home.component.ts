@@ -19,6 +19,6 @@ export class HomeComponent implements OnInit{
     JoumpToSection(section){
 document.getElementById(section).scrollIntoView({behavior:'smooth'})
     }
--
+
 
 }
