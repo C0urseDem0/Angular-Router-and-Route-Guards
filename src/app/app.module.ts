@@ -1,6 +1,6 @@
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { Routes, RouterModule, ROUTES } from '@angular/router';
+import { Routes, RouterModule, ROUTES, Router } from '@angular/router';
 import { AppComponent } from './app.component';
 import { ServicesService } from './Services/services.service';
 import { HomeComponent } from './home/home.component';
@@ -20,6 +20,8 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
+import { AuthService } from './Services/auth.service';
+
 
 
 const routes:Routes=[
@@ -28,7 +30,12 @@ const routes:Routes=[
 {path:'About',component:AboutComponent},
 {path:'Contact',component:ContactComponent},
 {path:'Courses',component:CoursesComponent},
+{path:'Courses',children:[
+  {path:'Checkout',component:CheckoutComponent,canActivate:[()=>{return false}]},
+]},
 {path:'Courses/Course/:id',component:CourseDetailComponent},
+{path:'Login' ,component:LoginComponent},
+
 {path:'**',component:NotFoundComponent}
 ]
 
@@ -57,7 +64,12 @@ const routes:Routes=[
     FormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [ServicesService, CourseService],
+  providers: [
+    ServicesService,
+    CourseService,
+    AuthService
+  
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
